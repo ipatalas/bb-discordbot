@@ -43,6 +43,8 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 
+typings
+
 # Ignores compiled TypeScript files
 **/app/**/*.map
 **/app/**/*.js
