@@ -6,7 +6,9 @@
         "removeComments": true,
         "noImplicitAny": true,
         "sourceMap": true,
-        "preserveConstEnums": true
+        "preserveConstEnums": true,
+        "declaration": true,
+        "noExternalResolve": true
     },
     "exclude": [
         "node_modules"

@@ -48,3 +48,4 @@ typings
 # Ignores compiled TypeScript files
 **/app/**/*.map
 **/app/**/*.js
+/build

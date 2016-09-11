@@ -5,6 +5,6 @@ export interface BarType {
 
 export class ClassA {
     constructor(public name: string) {
-        
+
     }
 }
