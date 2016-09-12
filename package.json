@@ -2,10 +2,10 @@
   "name": "bb-eaglebot",
   "version": "1.0.0",
   "description": "Boom Beach Eagle Bot",
-  "main": "app/main.js",
+  "main": "build/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app/main.js"
+    "start": "node build/main.js"
   },
   "keywords": [
     "boom",
@@ -15,11 +15,13 @@
   "author": "FiDO",
   "license": "ISC",
   "dependencies": {
+    "discord.js": "^9.1.1",
     "express": "^4.14.0"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
+    "gulp-nodemon": "^2.1.0",
     "gulp-tslint": "^6.1.1",
     "gulp-typescript": "^2.13.6",
     "run-sequence": "^1.2.2",
