@@ -15,16 +15,17 @@
   "author": "FiDO",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^9.1.1",
-    "express": "^4.14.0",
+    "discord.js": "^9.2.0",
     "lokijs": "^1.4.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
+    "gulp-gzip": "^1.4.0",
     "gulp-nodemon": "^2.1.0",
-    "gulp-npm-files": "github:strawhatboy/gulp-npm-files#a92b25c",
+    "gulp-npm-files": "github:ipatalas/gulp-npm-files",
     "gulp-sourcemaps": "^1.6.0",
+    "gulp-tar": "^1.9.0",
     "gulp-tslint": "^6.1.1",
     "gulp-typescript": "^2.13.6",
     "run-sequence": "^1.2.2",

@@ -6,6 +6,8 @@ var tslint = require('gulp-tslint');
 var clean = require('gulp-clean');
 var nodemon = require('gulp-nodemon');
 var gnf = require('gulp-npm-files');
+var tar = require('gulp-tar');
+var gzip = require('gulp-gzip');
 var sourcemaps = require('gulp-sourcemaps');
 var runSequence = require('run-sequence');
 
@@ -46,12 +48,22 @@ gulp.task('develop', ['ts', 'watch'], function() {
 });
 
 gulp.task('_copyDeps', function() {
-	gulp.src(gnf(), {base:'./'})
-		.pipe(gulp.dest(config.build.output));
+	return gulp.src(gnf(), {base:'./'})
+			   .pipe(gulp.dest(config.build.output));
+});
+
+// TODO: 
+// - convert new lines
+
+gulp.task('_archive', function() {
+	return gulp.src(config.build.allFiles)
+		.pipe(tar(config.build.archiveName + ".tar"))
+		.pipe(gzip())
+		.pipe(gulp.dest(config.root));
 });
 
 gulp.task('build', function(cb) {
-	runSequence('clean', 'ts-lint', 'ts', '_copyDeps', cb);
+	runSequence('clean', 'ts-lint', 'ts', '_copyDeps', '_archive', cb);
 });
 
 gulp.task('default', function (cb) {

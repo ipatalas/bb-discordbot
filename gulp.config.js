@@ -2,6 +2,9 @@ module.exports = function() {
 	var root = './';
 	var clientApp = root + 'app/';
 	var build = './build/';
+	var pkg = require('./package.json');
+
+	var archiveName = pkg.name + '-v' + pkg.version;
 	
 	var config = {
 		root: root,
@@ -25,7 +28,12 @@ module.exports = function() {
 		},
 		build: {
 			output: build,
-			main: build + 'main.js'
+			main: build + 'main.js',
+			allFiles: [
+				build + '**/*',
+				'!' + build + '**/*.js.map'
+			],
+			archiveName: archiveName
 		}
 	}
 

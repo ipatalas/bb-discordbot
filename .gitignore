@@ -50,3 +50,4 @@ typings
 **/app/**/*.js
 /build
 /config.json
+/*.gz
