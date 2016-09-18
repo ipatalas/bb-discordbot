@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^9.2.0",
+    "glob": "^7.0.6",
     "lokijs": "^1.4.1"
   },
   "devDependencies": {

@@ -3,22 +3,11 @@
 import { CommandBase, ChannelContext } from "./commandBase";
 import { Config } from "./../models/config.d";
 import * as Discord from "discord.js";
-
-import createPingCommand from "./commands/pingCommand";
-import createFooCommand from "./commands/fooCommand";
+import { default as commands } from "./commandLoader";
 
 const config: Config = require("../config.json");
 
-let bot = new Discord.Client({
-	autoReconnect: true
-});
-
-let pingCommand = createPingCommand();
-let fooCommand = createFooCommand();
-
-var commands: { [key: string]: CommandBase; } = {};
-commands[pingCommand.command] = pingCommand;
-commands[fooCommand.command] = fooCommand;
+let bot = new Discord.Client();
 
 bot.on("ready", () => {
 	console.log("Connected to server");
