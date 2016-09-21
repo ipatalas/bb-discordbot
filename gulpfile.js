@@ -43,6 +43,8 @@ gulp.task('watch', function() {
 gulp.task('develop', ['ts', 'watch'], function() {
 	nodemon({
 		script: config.build.main,
+		ignore: "operations.json",
+		//verbose: true,
 		nodeArgs: ['--debug']
 	});
 });
