@@ -9,6 +9,7 @@ var gnf = require('gulp-npm-files');
 var tar = require('gulp-tar');
 var gzip = require('gulp-gzip');
 var sourcemaps = require('gulp-sourcemaps');
+var replace = require('gulp-replace');
 var runSequence = require('run-sequence');
 
 var config = require('./gulp.config.js')();
@@ -36,11 +37,11 @@ gulp.task('clean', function (cb) {
 		.pipe(clean());
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', function () {
 	gulp.watch(config.ts.allTs, ['ts']);
 });
 
-gulp.task('develop', ['ts', 'watch'], function() {
+gulp.task('develop', ['ts', 'watch'], function () {
 	nodemon({
 		script: config.build.main,
 		ignore: "operations.json",
@@ -49,23 +50,34 @@ gulp.task('develop', ['ts', 'watch'], function() {
 	});
 });
 
-gulp.task('_copyDeps', function() {
-	return gulp.src(gnf(), {base:'./'})
-			   .pipe(gulp.dest(config.build.output));
+gulp.task('_copyDeps', function () {
+	return gulp.src(gnf(), { base: './' })
+		.pipe(gulp.dest(config.build.output));
+});
+
+gulp.task('_copyFiles', function () {
+	return gulp.src(config.copyFiles)
+		.pipe(gulp.dest(config.build.output));
+});
+
+gulp.task('_replaceConfigPath', function () {
+	return gulp.src(config.build.main)
+		.pipe(replace('../config.json', './config.json'))
+		.pipe(gulp.dest(config.build.output));
 });
 
 // TODO: 
 // - convert new lines
 
-gulp.task('_archive', function() {
+gulp.task('_archive', function () {
 	return gulp.src(config.build.allFiles)
 		.pipe(tar(config.build.archiveName + ".tar"))
 		.pipe(gzip())
 		.pipe(gulp.dest(config.root));
 });
 
-gulp.task('build', function(cb) {
-	runSequence('clean', 'ts-lint', 'ts', '_copyDeps', '_archive', cb);
+gulp.task('build', function (cb) {
+	runSequence('clean', 'ts-lint', 'ts', '_copyFiles', '_replaceConfigPath', '_copyDeps', '_archive', cb);
 });
 
 gulp.task('default', function (cb) {

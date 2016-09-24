@@ -5,6 +5,7 @@
   },
   "globalDependencies": {
     "glob": "registry:dt/glob#5.0.10+20160317120654",
+    "gulp-replace": "registry:dt/gulp-replace#0.0.0+20160316155526",
     "gulp-typescript": "registry:dt/gulp-typescript#0.0.0+20160317120654",
     "lodash": "registry:dt/lodash#4.14.0+20160830145422",
     "lokijs": "registry:dt/lokijs#0.0.0+20160316155526"

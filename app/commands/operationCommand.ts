@@ -32,8 +32,8 @@ export class OperationCommand extends CommandBase {
 	}
 
 	private start(context: ChannelContext, params: string[]): void {
-		//var coll = db.getCollection("ops");
-		if (params.length == 1) {
+		// var coll = db.getCollection("ops");
+		if (params.length === 1) {
 			this.currentOperation = Operations.getOperation(params.shift());
 			context.sendMessage(`operation started - ${this.currentOperation}`);
 		}

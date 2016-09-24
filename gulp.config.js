@@ -26,6 +26,9 @@ module.exports = function() {
 			allTs: clientApp + '**/*.ts',
 			libTypingsAllTs: root + 'typings/main/**/*.ts'
 		},
+		copyFiles: [
+			'./config.json'
+		],
 		build: {
 			output: build,
 			main: build + 'main.js',
