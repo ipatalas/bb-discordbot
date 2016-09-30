@@ -64,7 +64,7 @@ export class Operations {
 		[OperationType.MassiveAttack]: new Operation("Massive Attack", ["ma"])
 	}
 
-	static isEnumIndex(key): boolean {
+	static isEnumIndex(key: string): boolean {
 		const n = ~~Number(key);
 		return String(n) === key && n >= 0;
 	}
