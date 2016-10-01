@@ -51,7 +51,10 @@ gulp.task('develop', ['ts', 'watch'], function () {
 		script: config.build.main,
 		ignore: "operations.json",
 		//verbose: true,
-		nodeArgs: ['--debug']
+		nodeArgs: ['--debug'],
+		env: {
+			NODE_ENV: "development"
+		}
 	});
 });
 
