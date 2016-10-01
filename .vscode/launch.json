@@ -6,7 +6,7 @@
 			"type": "node",
 			"request": "launch",
 			"program": "${workspaceRoot}/build/main.js",
-			"stopOnEntry": false,
+			"stopOnEntry": true,
 			"args": [],
 			"cwd": "${workspaceRoot}",
 			"preLaunchTask": null,
@@ -18,7 +18,7 @@
 				"NODE_ENV": "development"
 			},
 			"console": "internalConsole",
-			"sourceMaps": false,
+			"sourceMaps": true,
 			"outDir": null
 		},
 		{

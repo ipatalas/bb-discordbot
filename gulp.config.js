@@ -38,7 +38,7 @@ module.exports = function () {
 			],
 			archiveName: archiveName
 		},
-		deploy: require("deploy.json")
+		deploy: require("./deploy.json")
 	}
 
 	return config;
