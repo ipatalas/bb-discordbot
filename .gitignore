@@ -50,5 +50,6 @@ typings
 **/app/**/*.js
 /build
 /config.json
+/deploy.json
 /*.gz
 /.vscode/symbols.json

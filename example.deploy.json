@@ -1,0 +1,9 @@
+{
+	"ssh": {
+		"host": "",
+		"port": 22,
+		"username": "",
+		"password": ""
+	},
+	"destination": "/home/<user>/bot"
+}

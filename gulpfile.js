@@ -8,13 +8,18 @@ var nodemon = require('gulp-nodemon');
 var gnf = require('gulp-npm-files');
 var tar = require('gulp-tar');
 var gzip = require('gulp-gzip');
+var GulpSSH = require('gulp-ssh')
 var sourcemaps = require('gulp-sourcemaps');
 var replace = require('gulp-replace');
 var runSequence = require('run-sequence');
 
 var config = require('./gulp.config.js')();
-
 var tsProject = ts.createProject('tsconfig.json');
+
+var gulpSSH = new GulpSSH({
+	ignoreErrors: false,
+	sshConfig: config.deploy.ssh
+})
 
 gulp.task('ts', function () {
 	var tsResult = tsProject.src(config.ts.allTs)
@@ -50,6 +55,12 @@ gulp.task('develop', ['ts', 'watch'], function () {
 	});
 });
 
+gulp.task('_deployFiles', [], function () {
+	return gulp
+		.src(config.build.allFiles)
+		.pipe(gulpSSH.dest(config.deploy.destination));
+});
+
 gulp.task('_copyDeps', function () {
 	return gulp.src(gnf(), { base: './' })
 		.pipe(gulp.dest(config.build.output));
@@ -78,6 +89,10 @@ gulp.task('_archive', function () {
 
 gulp.task('build', function (cb) {
 	runSequence('clean', 'ts-lint', 'ts', '_copyFiles', '_replaceConfigPath', '_copyDeps', '_archive', cb);
+});
+
+gulp.task('deploy', function (cb) {
+	runSequence('clean', 'ts-lint', 'ts', '_copyFiles', '_replaceConfigPath', '_copyDeps', '_deployFiles', cb);
 });
 
 gulp.task('default', function (cb) {

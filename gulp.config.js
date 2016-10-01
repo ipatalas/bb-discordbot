@@ -1,11 +1,11 @@
-module.exports = function() {
+module.exports = function () {
 	var root = './';
 	var clientApp = root + 'app/';
 	var build = './build/';
 	var pkg = require('./package.json');
 
 	var archiveName = pkg.name + '-v' + pkg.version;
-	
+
 	var config = {
 		root: root,
 		app: clientApp,
@@ -37,7 +37,8 @@ module.exports = function() {
 				'!' + build + '**/*.js.map'
 			],
 			archiveName: archiveName
-		}
+		},
+		deploy: require("deploy.json")
 	}
 
 	return config;
