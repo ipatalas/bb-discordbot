@@ -8,7 +8,7 @@ const devPrefix = ":hammer: ";
 export class MessageContext {
 	reply: SendReplyFunc;
 
-	constructor(private client: Client, public args: string[], private msg: Message) {
+	constructor(private client: Client, public args: string[], public msg: Message) {
 		this.reply = this.processMessage.bind(this, msg.reply.bind(msg));
 	}
 
@@ -62,7 +62,7 @@ export class MessageContext {
 		if (isDevEnv) {
 			promise = promise.then((msg: Message) => {
 				let duration = new Date().valueOf() - startDate.valueOf();
-				msg.edit(msg.content + "` " + duration + "ms`");
+				msg.edit(msg.content + " ` " + duration + "ms`");
 				return msg;
 			});
 		}
