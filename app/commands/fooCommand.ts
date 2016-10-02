@@ -1,9 +1,10 @@
-import { ChannelContext, CommandBase } from "../commandBase";
+import { CommandBase } from "../commandBase";
+import { MessageContext } from "../messageContext";
 
 export class FooCommand extends CommandBase {
 	command: string = "foo";
 
-	execute(context: ChannelContext): void {
+	execute(context: MessageContext): void {
 		context.sendMessage(["1st foo", "2nd bar"]);
 	}
 }

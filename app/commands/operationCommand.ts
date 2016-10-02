@@ -1,6 +1,7 @@
 /// <reference path="../../typings/index.d.ts" />
 
-import { ChannelContext, CommandBase } from "../commandBase";
+import { CommandBase } from "../commandBase";
+import { MessageContext } from "../messageContext";
 import * as lokijs from "lokijs";
 import { Operations } from "../operations";
 
@@ -21,7 +22,7 @@ export class OperationCommand extends CommandBase {
 	command: string = "op";
 	currentOperation: string;
 
-	execute(context: ChannelContext): void {
+	execute(context: MessageContext): void {
 		let [cmd, ...params] = context.args;
 
 		if (cmd === "start") {
@@ -31,7 +32,7 @@ export class OperationCommand extends CommandBase {
 		}
 	}
 
-	private start(context: ChannelContext, params: string[]): void {
+	private start(context: MessageContext, params: string[]): void {
 		// var coll = db.getCollection("ops");
 		if (params.length === 1) {
 			this.currentOperation = Operations.getOperation(params.shift());
@@ -39,7 +40,7 @@ export class OperationCommand extends CommandBase {
 		}
 	}
 
-	private stop(context: ChannelContext, params: string[]): void {
+	private stop(context: MessageContext, params: string[]): void {
 		if (this.currentOperation) {
 			context.sendMessage(`operation stopped - ${this.currentOperation}`);
 		}

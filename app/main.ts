@@ -1,13 +1,11 @@
-/// <reference path="../typings/index.d.ts" />
-
-import { CommandBase, ChannelContext } from "./commandBase";
+import { MessageContext } from "./messageContext";
 import { Config } from "./../models/config.d";
 import * as Discord from "discord.js";
 import { default as commands } from "./commandLoader";
 
 const config: Config = require("../config.json");
 
-let bot = new Discord.Client();
+var bot = new Discord.Client();
 
 bot.on("ready", () => {
 	console.log("Connected to server");
@@ -19,7 +17,7 @@ bot.on("message", (msg: Discord.Message) => {
 
 	let [cmd, ...params] = msg.content.substr(1).split(" ");
 
-	let context = new ChannelContext(params, msg);
+	let context = new MessageContext(bot, params, msg);
 
 	if (commands[cmd]) {
 		commands[cmd].execute(context);
