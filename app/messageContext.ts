@@ -2,13 +2,14 @@
 
 import { SendMessageFunc, SendReplyFunc, isDevEnv, StringResolvable, MessagePromise } from "./utils/common";
 import { Message, Client, TextChannel, User } from "discord.js";
+import * as bunyan from "bunyan";
 
 const devPrefix = ":hammer: ";
 
 export class MessageContext {
 	reply: SendReplyFunc;
 
-	constructor(private client: Client, public args: string[], public msg: Message) {
+	constructor(private client: Client, public args: string[], public msg: Message, private log: bunyan.Logger) {
 		this.reply = this.processMessage.bind(this, msg.reply.bind(msg));
 	}
 
@@ -22,7 +23,7 @@ export class MessageContext {
 		if (channel) {
 			return this.processMessage(channel.sendMessage.bind(channel), message);
 		} else {
-			console.log(`Channel '${channelOrMessage}' does not exist`);
+			this.log.warn(`Channel '${channelOrMessage}' does not exist`);
 
 			return new Promise<Message>((resolve: (val?: Message | PromiseLike<Message>) => void, reject: (error?: any) => void) => {
 				reject(new Error(`Channel '${channelOrMessage}' does not exist`));
@@ -68,7 +69,7 @@ export class MessageContext {
 		}
 
 		return promise.catch(err => {
-			console.log("!!!discord.js error while sending message: " + err);
+			this.log.error(err, "!!!discord.js error while sending message: ");
 			throw err; // do not "handle" this promise, just a global logger 
 		});
 	}

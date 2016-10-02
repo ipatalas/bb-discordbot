@@ -4,13 +4,18 @@ import { CommandBase } from "../commandBase";
 import { MessageContext } from "../messageContext";
 import * as _ from "lodash";
 import { config } from "../config";
+import * as bunyan from "bunyan";
 
 export class WriteCommand extends CommandBase {
 	command: string = "write";
 
+	constructor(log: bunyan.Logger) {
+		super(log);
+	}
+
 	execute(context: MessageContext): void {
 		if (context.msg.author.id !== config.bot_owner) {
-			console.log(`'${context.msg.author.username}' is trying to access 'write' command`);
+			this.log.warn(`'${context.msg.author.username}' is trying to access the command`);
 			return;
 		}
 
@@ -26,4 +31,4 @@ export class WriteCommand extends CommandBase {
 	}
 }
 
-export default () => new WriteCommand();
+export default (log: bunyan.Logger) => new WriteCommand(log);

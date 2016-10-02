@@ -47,6 +47,8 @@ gulp.task('watch', function () {
 });
 
 gulp.task('develop', ['ts', 'watch'], function () {
+	var spawn = require("child_process").spawn, bunyan;
+
 	nodemon({
 		script: config.build.main,
 		ignore: "operations.json",
@@ -54,7 +56,24 @@ gulp.task('develop', ['ts', 'watch'], function () {
 		nodeArgs: ['--debug'],
 		env: {
 			NODE_ENV: "development"
-		}
+		},
+		stdout: false,
+		readable: false
+	}).on('readable', function () {
+		// free memory 
+		bunyan && bunyan.kill()
+
+		bunyan = spawn('node', [
+			'./node_modules/bunyan/bin/bunyan',
+			'--output', 'short',
+			'--color'
+		]);
+
+		bunyan.stdout.pipe(process.stdout)
+		bunyan.stderr.pipe(process.stderr)
+
+		this.stdout.pipe(bunyan.stdin)
+		this.stderr.pipe(bunyan.stdin)
 	});
 });
 
