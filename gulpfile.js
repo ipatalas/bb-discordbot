@@ -75,7 +75,7 @@ gulp.task('_copyFiles', function () {
 });
 
 gulp.task('_replaceConfigPath', function () {
-	return gulp.src(config.build.main)
+	return gulp.src(config.build.config)
 		.pipe(replace('../config.json', './config.json'))
 		.pipe(gulp.dest(config.build.output));
 });

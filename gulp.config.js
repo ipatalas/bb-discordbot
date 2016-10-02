@@ -32,6 +32,7 @@ module.exports = function () {
 		build: {
 			output: build,
 			main: build + 'main.js',
+			config: build + 'config.js',
 			allFiles: [
 				build + '**/*',
 				'!' + build + '**/*.js.map'

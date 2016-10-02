@@ -2,8 +2,7 @@ import { MessageContext } from "./messageContext";
 import { Config } from "./../models/config.d";
 import * as Discord from "discord.js";
 import { default as commands } from "./commandLoader";
-
-const config: Config = require("../config.json");
+import { config } from "./config";
 
 var bot = new Discord.Client();
 
