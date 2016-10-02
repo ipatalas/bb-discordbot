@@ -24,7 +24,7 @@ var gulpSSH = new GulpSSH({
 gulp.task('ts', function () {
 	var tsResult = tsProject.src(config.ts.allTs)
 		.pipe(sourcemaps.init())
-		.pipe(ts(tsProject));
+		.pipe(tsProject());
 
 	return tsResult.js
 		.pipe(sourcemaps.write("."))

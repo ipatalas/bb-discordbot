@@ -3,12 +3,18 @@
 	"compilerOptions": {
 		"module": "commonjs",
 		"target": "es6",
+		"lib": [
+			"es6",
+			"es2015.collection",
+			"es2015.promise",
+			"es2015",
+			"webworker"
+		],
 		"removeComments": true,
 		"noImplicitAny": true,
 		"sourceMap": true,
 		"preserveConstEnums": true,
-		"declaration": true,
-		"noExternalResolve": true
+		"declaration": false
 	},
 	"exclude": [
 		"node_modules"
