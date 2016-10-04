@@ -48,6 +48,11 @@ export class MessageContext {
 	}
 
 	private processMessage = (sendFunc: SendMessageFunc, message: StringResolvable): MessagePromise => {
+		if (!message) {
+			this.log.warn("Empty message, not sending...");
+			return Promise.resolve();
+		}
+
 		if (isDevEnv) {
 			if (typeof message === "string") {
 				message = devPrefix + message;

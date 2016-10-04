@@ -28,4 +28,16 @@ bot.on("error", (error: Error) => {
 	log.error(error, "Generic error occured on Discord.Client");
 });
 
+bot.on("disconnect", () => {
+	log.info("Client disconnected");
+});
+
+bot.on("reconnecting", () => {
+	log.info("Client reconnecting");
+});
+
+bot.on("warn", (warn: string) => {
+	log.warn("Client warning: " + warn);
+});
+
 bot.login(config.bot_token);
