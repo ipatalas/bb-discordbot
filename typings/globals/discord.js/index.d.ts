@@ -3119,7 +3119,7 @@ declare module "discord.js" {
 		 * @param {Object} [thisArg] Value to use as `this` when executing function
 		 * @returns {Collection}
 		 */
-    some(fn: (element: T, key: K, collection: Collection<K, T>) => void, thisArg?: Object): Collection<K, T>;
+    some(fn: (element: T, key: K, collection: Collection<K, T>) => void, thisArg?: Object): boolean;
   }
 
   export type ChannelType = 'dm' | 'group' | 'text' | 'voice';
