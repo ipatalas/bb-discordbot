@@ -1,27 +1,28 @@
 /// <reference path="typings/index.d.ts" />
 
-var gulp = require('gulp');
-var ts = require('gulp-typescript');
-var tslint = require('gulp-tslint');
-var clean = require('gulp-clean');
-var nodemon = require('gulp-nodemon');
-var gnf = require('gulp-npm-files');
-var tar = require('gulp-tar');
-var gzip = require('gulp-gzip');
-var GulpSSH = require('gulp-ssh')
-var sourcemaps = require('gulp-sourcemaps');
-var replace = require('gulp-replace');
-var runSequence = require('run-sequence');
+const gulp = require('gulp');
+const ts = require('gulp-typescript');
+const tslint = require('gulp-tslint');
+const clean = require('gulp-clean');
+const nodemon = require('gulp-nodemon');
+const jasmine = require('gulp-jasmine');
+const gnf = require('gulp-npm-files');
+const tar = require('gulp-tar');
+const gzip = require('gulp-gzip');
+const GulpSSH = require('gulp-ssh')
+const sourcemaps = require('gulp-sourcemaps');
+const replace = require('gulp-replace');
+const runSequence = require('run-sequence');
 
-var config = require('./gulp.config.js')();
-var tsProject = ts.createProject('tsconfig.json');
+const config = require('./gulp.config.js')();
+const tsProject = ts.createProject('tsconfig.json');
 
-var gulpSSH = new GulpSSH({
+const gulpSSH = new GulpSSH({
 	ignoreErrors: false,
 	sshConfig: config.deploy.ssh
 })
 
-gulp.task('ts', function () {
+gulp.task('ts', () => {
 	var tsResult = tsProject.src(config.ts.allTs)
 		.pipe(sourcemaps.init())
 		.pipe(tsProject());
@@ -31,7 +32,7 @@ gulp.task('ts', function () {
 		.pipe(gulp.dest(config.build.output));
 });
 
-gulp.task('ts-lint', function () {
+gulp.task('ts-lint', () => {
 	return gulp.src(config.ts.allTs)
 		.pipe(tslint({ formatter: "prose" }))
 		.pipe(tslint.report());
@@ -42,24 +43,32 @@ gulp.task('clean', function (cb) {
 		.pipe(clean());
 });
 
-gulp.task('watch', function () {
+gulp.task('tests', ['ts'], () => {
+	return gulp.src(config.js.tests)
+			.pipe(jasmine());
+});
+
+gulp.task('tests-watch', ['ts'], () => {
+	return gulp.watch(config.ts.allTs, ['ts', 'tests']);
+});
+
+gulp.task('watch', () => {
 	gulp.watch(config.ts.allTs, ['ts']);
 });
 
-gulp.task('develop', ['ts', 'watch'], function () {
+gulp.task('develop', ['ts', 'watch'], () => {
 	var spawn = require("child_process").spawn, bunyan;
 
 	nodemon({
 		script: config.build.main,
 		ignore: "operations.json",
-		//verbose: true,
 		nodeArgs: ['--debug'],
 		env: {
 			NODE_ENV: "development"
 		},
 		stdout: false,
 		readable: false
-	}).on('readable', function () {
+	}).on('readable', () => {
 		// free memory 
 		bunyan && bunyan.kill()
 
@@ -77,23 +86,23 @@ gulp.task('develop', ['ts', 'watch'], function () {
 	});
 });
 
-gulp.task('_deployFiles', [], function () {
+gulp.task('_deployFiles', [], () => {
 	return gulp
 		.src(config.build.allFiles)
 		.pipe(gulpSSH.dest(config.deploy.destination));
 });
 
-gulp.task('_copyDeps', function () {
+gulp.task('_copyDeps', () => {
 	return gulp.src(gnf(), { base: './' })
 		.pipe(gulp.dest(config.build.output));
 });
 
-gulp.task('_copyFiles', function () {
+gulp.task('_copyFiles', () => {
 	return gulp.src(config.copyFiles)
 		.pipe(gulp.dest(config.build.output));
 });
 
-gulp.task('_replaceConfigPath', function () {
+gulp.task('_replaceConfigPath', () => {
 	return gulp.src(config.build.config)
 		.pipe(replace('../config.json', './config.json'))
 		.pipe(gulp.dest(config.build.output));
@@ -102,7 +111,7 @@ gulp.task('_replaceConfigPath', function () {
 // TODO: 
 // - convert new lines
 
-gulp.task('_archive', function () {
+gulp.task('_archive', () => {
 	return gulp.src(config.build.allFiles)
 		.pipe(tar(config.build.archiveName + ".tar"))
 		.pipe(gzip())

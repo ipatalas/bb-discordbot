@@ -11,20 +11,18 @@ module.exports = function () {
 		app: clientApp,
 		js: {
 			all: build + '**/*.js',
+			tests: [
+				build + '**/spec/*.[Ss]pec.js'
+			],
 			appFiles: [
 				build + '**/*.js',
 				'!' + build + '**/*.spec.js',
 				'!' + build + '**/*.mock.js',
 				'!' + build + '**/*.test.js'
-			],
-			order: [
-				'**/*.js'
 			]
 		},
 		ts: {
-			allDtsFilePath: clientApp + 'typings/_all.d.ts',
-			allTs: clientApp + '**/*.ts',
-			libTypingsAllTs: root + 'typings/main/**/*.ts'
+			allTs: clientApp + '**/*.ts'
 		},
 		copyFiles: [
 			'./config.json'
