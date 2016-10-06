@@ -14,11 +14,6 @@ export class WriteCommand extends CommandBase {
 	}
 
 	execute(context: MessageContext): void {
-		if (context.msg.author.id !== config.bot_owner) {
-			this.log.warn(`'${context.msg.author.username}' is trying to access the command`);
-			return;
-		}
-
 		let mentionedChannels = context.getMentionedChannels();
 
 		if (mentionedChannels && mentionedChannels.length > 0) {

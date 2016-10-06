@@ -4,7 +4,9 @@ import * as Discord from "discord.js";
 import { default as commands } from "./commandLoader";
 import { config } from "./config";
 import { log } from "./utils/logger";
+import { Permissions } from "./utils/permissions";
 
+var permissions = new Permissions(config.permissions);
 var bot = new Discord.Client();
 
 bot.on("ready", () => {
@@ -16,6 +18,11 @@ bot.on("message", (msg: Discord.Message) => {
 	if (msg.author.bot) return;
 
 	let [cmd, ...params] = msg.content.substr(1).split(" ");
+
+	if (!permissions.hasAccess(cmd, msg.member.roles)) {
+		log.warn({ user: msg.author.username, command: cmd }, "Permission denied");
+		return;
+	}
 
 	let context = new MessageContext(bot, params, msg, log.child({ command: commands[cmd].constructor.name }));
 

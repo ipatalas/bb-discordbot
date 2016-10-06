@@ -1,5 +1,10 @@
 {
 	"bot_token": "<your bot token - get it here: https://discordapp.com/developers/applications/me>",
 	"command_prefix": "!",
-	"bot_owner": "some commands may be restricted for this user only - https://github.com/SexualRhinoceros/MusicBot/wiki/FAQ#how-do-i-get-an-id"
+	"permissions": {
+		"<command name>": "#<role id>",
+		"<command>[.subcommand]": "<role name>",
+		"<command>": "@everyone",
+		"*": "!@everyone" 
+	}
 }
