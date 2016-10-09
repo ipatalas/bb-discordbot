@@ -1,4 +1,4 @@
-import { Config } from "../../models/config.d";
+import { Config } from "../models/config.d";
 import { Message } from "discord.js";
 import { CommandBase } from "../commandBase";
 import { MessageContext } from "../messageContext";

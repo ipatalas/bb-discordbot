@@ -1,5 +1,5 @@
 import { MessageContext } from "./messageContext";
-import { Config } from "./../models/config.d";
+import { Config } from "./models/config.d";
 import * as Discord from "discord.js";
 import { default as commands } from "./commandLoader";
 import { config } from "./config";
