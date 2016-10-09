@@ -4,7 +4,7 @@
   "description": "Boom Beach Eagle Bot",
   "main": "build/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "gulp tests",
     "start": "node build/main.js"
   },
   "keywords": [
@@ -36,6 +36,7 @@
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
     "gulp-gzip": "^1.4.0",
+    "gulp-istanbul": "^1.1.1",
     "gulp-jasmine": "^2.4.2",
     "gulp-nodemon": "^2.1.0",
     "gulp-npm-files": "github:ipatalas/gulp-npm-files",
@@ -46,6 +47,8 @@
     "gulp-tslint": "^6.1.1",
     "gulp-typescript": "^3.0.2",
     "jasmine": "^2.5.2",
+    "jasmine-console-reporter": "^1.2.7",
+    "remap-istanbul": "^0.6.4",
     "run-sequence": "^1.2.2",
     "tslint": "^3.15.1",
     "typescript": "^2.0.3"

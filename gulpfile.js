@@ -13,6 +13,9 @@ const GulpSSH = require('gulp-ssh')
 const sourcemaps = require('gulp-sourcemaps');
 const replace = require('gulp-replace');
 const runSequence = require('run-sequence');
+const JasmineConsoleReporter = require('jasmine-console-reporter');
+const istanbul = require('gulp-istanbul');
+const remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
 
 const config = require('./gulp.config.js')();
 const tsProject = ts.createProject('tsconfig.json');
@@ -20,7 +23,7 @@ const tsProject = ts.createProject('tsconfig.json');
 const gulpSSH = new GulpSSH({
 	ignoreErrors: false,
 	sshConfig: config.deploy.ssh
-})
+});
 
 gulp.task('ts', () => {
 	var tsResult = tsProject.src(config.ts.allTs)
@@ -28,7 +31,7 @@ gulp.task('ts', () => {
 		.pipe(tsProject());
 
 	return tsResult.js
-		.pipe(sourcemaps.write("."))
+		.pipe(sourcemaps.write(".", { sourceRoot: "." }))
 		.pipe(gulp.dest(config.build.output));
 });
 
@@ -43,9 +46,29 @@ gulp.task('clean', function (cb) {
 		.pipe(clean());
 });
 
+gulp.task('tests:cover:before', ['ts'], function () {
+	return gulp.src(config.js.appFiles)
+		.pipe(istanbul())
+		.pipe(istanbul.hookRequire());
+});
+
 gulp.task('tests', ['ts'], () => {
+	// this reporter caches failing specs, so it has to be created every time
+	const reporter = new JasmineConsoleReporter();
+
 	return gulp.src(config.js.tests)
-			.pipe(jasmine());
+		.pipe(jasmine({ reporter: reporter }));
+});
+
+gulp.task('tests:cover', ['tests:cover:before', 'ts'], () => {
+	// this reporter caches failing specs, so it has to be created every time
+	const reporter = new JasmineConsoleReporter();
+
+	return gulp.src(config.js.tests)
+		.pipe(jasmine({ reporter: reporter }))
+		.pipe(istanbul.writeReports({
+			reporters: ['json']
+		})).on('end', remapCoverageFiles);
 });
 
 gulp.task('tests-watch', ['ts'], () => {
@@ -108,18 +131,8 @@ gulp.task('_replaceConfigPath', () => {
 		.pipe(gulp.dest(config.build.output));
 });
 
-// TODO: 
-// - convert new lines
-
-gulp.task('_archive', () => {
-	return gulp.src(config.build.allFiles)
-		.pipe(tar(config.build.archiveName + ".tar"))
-		.pipe(gzip())
-		.pipe(gulp.dest(config.root));
-});
-
 gulp.task('build', function (cb) {
-	runSequence('clean', 'ts-lint', 'ts', '_copyFiles', '_replaceConfigPath', '_copyDeps', '_archive', cb);
+	runSequence('clean', 'ts-lint', 'ts', '_copyFiles', '_replaceConfigPath', '_copyDeps', cb);
 });
 
 gulp.task('deploy', function (cb) {
@@ -129,3 +142,14 @@ gulp.task('deploy', function (cb) {
 gulp.task('default', function (cb) {
 	runSequence('ts-lint', 'ts', cb);
 });
+
+function remapCoverageFiles() {
+	return gulp.src('./coverage/coverage-final.json')
+		.pipe(remapIstanbul({
+			reports: {
+				'html': './coverage',
+				'text-summary': null,
+				'lcovonly': './coverage/lcov.info'
+			}
+		}));
+}

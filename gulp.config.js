@@ -16,6 +16,7 @@ module.exports = function () {
 			],
 			appFiles: [
 				build + '**/*.js',
+				'!' + build + 'node_modules/**/*.js',
 				'!' + build + '**/*.spec.js',
 				'!' + build + '**/*.mock.js',
 				'!' + build + '**/*.test.js'

@@ -1,10 +1,10 @@
 import { Role as DiscordRole, Collection } from "discord.js";
 
-type PermissionsMap = { [key: string]: string; };
-type Entry = { cmd: Command; role: Role; };
+export type PermissionsMap = { [key: string]: string; };
+export type PermissionEntry = { cmd: Command; role: Role; };
 
 export class Permissions {
-	private readonly permissions: Entry[] = [];
+	public readonly permissions: PermissionEntry[] = [];
 
 	constructor(permissions: PermissionsMap) {
 		for (var cmd in permissions) {
@@ -29,9 +29,9 @@ export class Permissions {
 }
 
 class Role {
-	private readonly roleId: string;
-	private readonly roleName: string;
-	private readonly invert: boolean = false;
+	public readonly roleId: string;
+	public readonly roleName: string;
+	public readonly invert: boolean = false;
 
 	constructor(definition: string) {
 		if (definition.startsWith("!")) {
@@ -60,7 +60,7 @@ class Role {
 }
 
 class Command {
-	constructor(private readonly command: string) {}
+	constructor(public readonly command: string) {}
 
 	matches = (commandName: string): boolean => {
 		if (this.command === "*") {

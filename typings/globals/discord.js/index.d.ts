@@ -3043,7 +3043,7 @@ declare module "discord.js" {
 		 * @param {Object} [thisArg] Value to use as `this` when executing function
 		 * @returns {Collection}
 		 */
-    every(fn: (element: T, key: K, collection: Collection<K, T>) => boolean, thisArg?: Object): Collection<K, T>;
+    every(fn: (element: T, key: K, collection: Collection<K, T>) => boolean, thisArg?: Object): boolean;
 		/**
 		 * Returns true if the collection has an item where `item[prop] === value`
 		 * @param {string} prop The property to test against
