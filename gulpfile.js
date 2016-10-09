@@ -1,55 +1,44 @@
 /// <reference path="typings/index.d.ts" />
 
 const gulp = require('gulp');
-const ts = require('gulp-typescript');
-const tslint = require('gulp-tslint');
-const clean = require('gulp-clean');
-const nodemon = require('gulp-nodemon');
-const jasmine = require('gulp-jasmine');
-const gnf = require('gulp-npm-files');
-const tar = require('gulp-tar');
-const gzip = require('gulp-gzip');
-const GulpSSH = require('gulp-ssh')
-const sourcemaps = require('gulp-sourcemaps');
-const replace = require('gulp-replace');
+const $ = require('gulp-load-plugins')({
+	rename: {
+		"gulp-ssh": "GulpSSH"
+	}
+});
+
 const runSequence = require('run-sequence');
-const JasmineConsoleReporter = require('jasmine-console-reporter');
-const istanbul = require('gulp-istanbul');
 const remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul');
+const JasmineConsoleReporter = require('jasmine-console-reporter');
 
 const config = require('./gulp.config.js')();
-const tsProject = ts.createProject('tsconfig.json');
-
-const gulpSSH = new GulpSSH({
-	ignoreErrors: false,
-	sshConfig: config.deploy.ssh
-});
+const tsProject = $.typescript.createProject('tsconfig.json');
 
 gulp.task('ts', () => {
 	var tsResult = tsProject.src(config.ts.allTs)
-		.pipe(sourcemaps.init())
+		.pipe($.sourcemaps.init())
 		.pipe(tsProject());
 
 	return tsResult.js
-		.pipe(sourcemaps.write(".", { sourceRoot: "." }))
+		.pipe($.sourcemaps.write(".", { sourceRoot: "." }))
 		.pipe(gulp.dest(config.build.output));
 });
 
 gulp.task('ts-lint', () => {
 	return gulp.src(config.ts.allTs)
-		.pipe(tslint({ formatter: "prose" }))
-		.pipe(tslint.report());
+		.pipe($.tslint({ formatter: "prose" }))
+		.pipe($.tslint.report());
 });
 
 gulp.task('clean', function (cb) {
 	return gulp.src(config.build.output, { read: false })
-		.pipe(clean());
+		.pipe($.clean());
 });
 
 gulp.task('tests:cover:before', ['ts'], function () {
 	return gulp.src(config.js.appFiles)
-		.pipe(istanbul())
-		.pipe(istanbul.hookRequire());
+		.pipe($.istanbul())
+		.pipe($.istanbul.hookRequire());
 });
 
 gulp.task('tests', ['ts'], () => {
@@ -57,7 +46,7 @@ gulp.task('tests', ['ts'], () => {
 	const reporter = new JasmineConsoleReporter();
 
 	return gulp.src(config.js.tests)
-		.pipe(jasmine({ reporter: reporter }));
+		.pipe($.jasmine({ reporter: reporter }));
 });
 
 gulp.task('tests:cover', ['tests:cover:before', 'ts'], () => {
@@ -65,8 +54,8 @@ gulp.task('tests:cover', ['tests:cover:before', 'ts'], () => {
 	const reporter = new JasmineConsoleReporter();
 
 	return gulp.src(config.js.tests)
-		.pipe(jasmine({ reporter: reporter }))
-		.pipe(istanbul.writeReports({
+		.pipe($.jasmine({ reporter: reporter }))
+		.pipe($.istanbul.writeReports({
 			reporters: ['json']
 		})).on('end', remapCoverageFiles);
 });
@@ -82,7 +71,7 @@ gulp.task('watch', () => {
 gulp.task('develop', ['ts', 'watch'], () => {
 	var spawn = require("child_process").spawn, bunyan;
 
-	nodemon({
+	$.nodemon({
 		script: config.build.main,
 		ignore: "operations.json",
 		nodeArgs: ['--debug'],
@@ -110,13 +99,18 @@ gulp.task('develop', ['ts', 'watch'], () => {
 });
 
 gulp.task('_deployFiles', [], () => {
+	const gulpSSH = new $.GulpSSH({
+		ignoreErrors: false,
+		sshConfig: config.deploy.ssh
+	});
+
 	return gulp
 		.src(config.build.allFiles)
 		.pipe(gulpSSH.dest(config.deploy.destination));
 });
 
 gulp.task('_copyDeps', () => {
-	return gulp.src(gnf(), { base: './' })
+	return gulp.src($.npmFiles(), { base: './' })
 		.pipe(gulp.dest(config.build.output));
 });
 
@@ -127,7 +121,7 @@ gulp.task('_copyFiles', () => {
 
 gulp.task('_replaceConfigPath', () => {
 	return gulp.src(config.build.config)
-		.pipe(replace('../config.json', './config.json'))
+		.pipe($.replace('../config.json', './config.json'))
 		.pipe(gulp.dest(config.build.output));
 });
 
