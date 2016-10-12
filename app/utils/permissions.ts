@@ -49,13 +49,9 @@ class Role {
 	matches = (role: DiscordRole): boolean => {
 		if (this.roleName) {
 			return role.name === this.roleName && !this.invert;
-		}
-
-		if (this.roleId) {
+		} else {
 			return role.id === this.roleId && !this.invert;
 		}
-
-		return false;
 	}
 }
 
