@@ -33,6 +33,7 @@
     "@types/lokijs": "^1.2.30",
     "@types/moment": "^2.13.0",
     "@types/node": "^6.0.41",
+    "coveralls": "^2.11.14",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
     "gulp-istanbul": "^1.1.1",

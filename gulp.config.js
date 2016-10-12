@@ -35,8 +35,7 @@ module.exports = function () {
 			allFiles: [
 				build + '**/*',
 				'!' + build + '**/*.js.map'
-			],
-			archiveName: archiveName
+			]
 		}
 	}
 
