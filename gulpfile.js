@@ -60,8 +60,12 @@ gulp.task('tests:cover', ['tests:cover:before', 'ts'], () => {
 		})).on('end', remapCoverageFiles);
 });
 
-gulp.task('tests-watch', ['ts'], () => {
+gulp.task('tests:watch', ['ts'], () => {
 	return gulp.watch(config.ts.allTs, ['ts', 'tests']);
+});
+
+gulp.task('tests:cover:watch', ['ts'], () => {
+	return gulp.watch(config.ts.allTs, ['ts', 'tests:cover']);
 });
 
 gulp.task('watch', () => {
