@@ -103,14 +103,15 @@ gulp.task('develop', ['ts', 'watch'], () => {
 });
 
 gulp.task('_deployFiles', [], () => {
+	const deploy = require("./deploy.json");
 	const gulpSSH = new $.GulpSSH({
 		ignoreErrors: false,
-		sshConfig: config.deploy.ssh
+		sshConfig: deploy.ssh
 	});
 
 	return gulp
 		.src(config.build.allFiles)
-		.pipe(gulpSSH.dest(config.deploy.destination));
+		.pipe(gulpSSH.dest(deploy.destination));
 });
 
 gulp.task('_copyDeps', () => {

@@ -37,8 +37,7 @@ module.exports = function () {
 				'!' + build + '**/*.js.map'
 			],
 			archiveName: archiveName
-		},
-		deploy: require("./deploy.json")
+		}
 	}
 
 	return config;
