@@ -1,6 +1,7 @@
 module.exports = function () {
 	var root = './';
-	var clientApp = root + 'app/';
+	var app = 'app/';
+	var clientApp = root + app;
 	var build = './build/';
 	var coveragePath = './coverage';
 	var pkg = require('./package.json');
@@ -9,6 +10,7 @@ module.exports = function () {
 
 	var config = {
 		root: root,
+		appRelative: app,
 		app: clientApp,
 		js: {
 			all: build + '**/*.js',
