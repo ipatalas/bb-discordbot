@@ -60,6 +60,8 @@ gulp.task('tests:cover', ['tests:cover:before', 'ts'], () => {
 		})).on('end', remapCoverageFiles);
 });
 
+// can't make remapIstanbul to output correct paths, so that coveralls understands them (relative to repository root)
+// this is a cheap workaround :/
 gulp.task('fixCoveragePaths', () => {
 	return gulp.src(config.coverage.lcovPath)
 		.pipe($.replace(/SF:.*build\//g, `SF:${config.appRelative}`))

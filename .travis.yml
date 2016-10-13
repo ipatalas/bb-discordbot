@@ -5,8 +5,5 @@ before_script:
   - npm install -g gulp
 script: gulp tests:cover
 after_success:
-  - "find . -maxdepth 3 ( -name '*.ts' -o -name '*.js' ) -a ( -path '*/app/*' -o -path '*/build/*' )"
-  - 'cat ./coverage/lcov.info'
   - 'gulp fixCoveragePaths'
-  - 'cat ./coverage/lcov.info'
   - 'cat ./coverage/lcov.info | ./node_modules/.bin/coveralls'
