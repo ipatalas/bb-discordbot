@@ -6,4 +6,5 @@ before_script:
 script: gulp tests:cover
 after_success:
   - 'gulp fixCoveragePaths'
+  - 'cat ./coverage/lcov.info'
   - 'cat ./coverage/lcov.info | ./node_modules/.bin/coveralls'
