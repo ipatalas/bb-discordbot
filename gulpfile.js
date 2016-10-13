@@ -62,7 +62,7 @@ gulp.task('tests:cover', ['tests:cover:before', 'ts'], () => {
 
 gulp.task('fixCoveragePaths', () => {
 	return gulp.src(config.coverage.lcovPath)
-		.pipe($.replace(/SF:.*build\//, `SF:${config.appRelative}`))
+		.pipe($.replace(/SF:.*build\//g, `SF:${config.appRelative}`))
 		.pipe(gulp.dest(config.coverage.path));
 });
 
