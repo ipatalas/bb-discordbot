@@ -5,5 +5,5 @@ before_script:
   - npm install -g gulp
 script: gulp tests:cover
 after_success:
-  - 'cat ./coverage/lcov.info'
+  - 'gulp fixCoveragePaths'
   - 'cat ./coverage/lcov.info | ./node_modules/.bin/coveralls'

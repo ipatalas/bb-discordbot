@@ -60,6 +60,12 @@ gulp.task('tests:cover', ['tests:cover:before', 'ts'], () => {
 		})).on('end', remapCoverageFiles);
 });
 
+gulp.task('fixCoveragePaths', () => {
+	return gulp.src(config.coverage.lcovPath)
+		.pipe($.replace('SF:', `SF:${config.app}`))
+		.pipe(gulp.dest(config.coverage.path));
+});
+
 gulp.task('tests:watch', ['ts'], () => {
 	return gulp.watch(config.ts.allTs, ['ts', 'tests']);
 });
@@ -145,6 +151,7 @@ gulp.task('default', function (cb) {
 function remapCoverageFiles() {
 	return gulp.src('./coverage/coverage-final.json')
 		.pipe(remapIstanbul({
+			/*basePath: 'app',*/
 			reports: {
 				'html': './coverage',
 				'text-summary': null,
