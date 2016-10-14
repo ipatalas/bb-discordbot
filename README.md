@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/ipatalas/bb-discordbot.svg?branch=master)](https://travis-ci.org/ipatalas/bb-discordbot)
 [![Coverage Status](https://coveralls.io/repos/github/ipatalas/bb-discordbot/badge.svg?branch=master)](https://coveralls.io/github/ipatalas/bb-discordbot?branch=master)
 [![Dependencies status](https://david-dm.org/ipatalas/bb-discordbot.svg)](https://david-dm.org/ipatalas/bb-discordbot)
+[![bitHound Code](https://www.bithound.io/github/ipatalas/bb-discordbot/badges/code.svg)](https://www.bithound.io/github/ipatalas/bb-discordbot)
 
 # Boom Beach Discord Bot
 This is a bot for [Discord](https://discordapp.com/). It's aim is to help people with operations and to provide some statistics about them to give more fun. The bot itself will contain several commands to allow player to check in their attack to allow the bot to use that data later for its features.  
