@@ -4,10 +4,7 @@ module.exports = function () {
 	var clientApp = root + app;
 	var build = './build/';
 	var coveragePath = './coverage';
-	var pkg = require('./package.json');
-
-	var archiveName = pkg.name + '-v' + pkg.version;
-
+	
 	var config = {
 		root: root,
 		appRelative: app,
@@ -44,7 +41,7 @@ module.exports = function () {
 			path: coveragePath,
 			lcovPath: `${coveragePath}/lcov.info`
 		}
-	}
+	};
 
 	return config;
-}
+};

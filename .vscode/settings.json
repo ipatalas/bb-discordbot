@@ -6,6 +6,7 @@
 	"search.exclude": {
 		"**/node_modules": true,
 		"**/bower_components": true,
-		"{build,typings}": true
-	}
+		"{build}": true
+	},
+	"tslint.ignoreDefinitionFiles": false
 }

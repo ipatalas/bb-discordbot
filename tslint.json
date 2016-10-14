@@ -24,7 +24,7 @@
       "double",
       "avoid-escape"
     ],
-    "semicolon": false,
+    "semicolon": [true, "always"],
     "triple-equals": [
       true,
       "allow-null-check"

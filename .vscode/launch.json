@@ -22,6 +22,21 @@
 			"outDir": null
 		},
 		{
+			"name": "Debug gulp",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceRoot}/node_modules/gulp/bin/gulp.js",
+			"stopOnEntry": true,
+			"args": ["tests:cover"],
+			"cwd": "${workspaceRoot}",
+			"env": {
+				"NODE_ENV": "development"
+			},
+			"console": "internalConsole",
+			"sourceMaps": true,
+			"outDir": null
+		},
+		{
 			"name": "Attach",
 			"type": "node",
 			"request": "attach",

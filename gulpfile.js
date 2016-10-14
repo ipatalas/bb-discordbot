@@ -1,5 +1,3 @@
-/// <reference path="typings/index.d.ts" />
-
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')({
 	rename: {
@@ -30,7 +28,7 @@ gulp.task('ts-lint', () => {
 		.pipe($.tslint.report());
 });
 
-gulp.task('clean', function (cb) {
+gulp.task('clean', () => {
 	return gulp.src(config.build.output, { read: false })
 		.pipe($.clean());
 });
@@ -94,7 +92,7 @@ gulp.task('develop', ['ts', 'watch'], () => {
 		readable: false
 	}).on('readable', () => {
 		// free memory 
-		bunyan && bunyan.kill()
+		bunyan && bunyan.kill();
 
 		bunyan = spawn('node', [
 			'./node_modules/bunyan/bin/bunyan',
@@ -102,11 +100,11 @@ gulp.task('develop', ['ts', 'watch'], () => {
 			'--color'
 		]);
 
-		bunyan.stdout.pipe(process.stdout)
-		bunyan.stderr.pipe(process.stderr)
+		bunyan.stdout.pipe(process.stdout);
+		bunyan.stderr.pipe(process.stderr);
 
-		this.stdout.pipe(bunyan.stdin)
-		this.stderr.pipe(bunyan.stdin)
+		this.stdout.pipe(bunyan.stdin);
+		this.stderr.pipe(bunyan.stdin);
 	});
 });
 
