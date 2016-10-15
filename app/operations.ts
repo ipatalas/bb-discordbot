@@ -27,7 +27,7 @@ export enum OperationType {
 	MassiveAttack
 }
 
-class Operation {
+export class Operation {
 	constructor(public displayName: string, public aliases: string[]) {}
 
 	public matches(aliasOrName: string): boolean {
@@ -38,8 +38,9 @@ class Operation {
 	}
 }
 
+// TODO: define operations in json file (name, aliases, number of bases, whatever else needed)
 export class Operations {
-	private static operations: { [key: number]: Operation; } = {
+	private static readonly operations: { [key: number]: Operation; } = {
 		[OperationType.MilkRun]: new Operation("Milk Run", ["milk"]),
 		[OperationType.EarlyBird]: new Operation("Early Bird", ["bird"]),
 		[OperationType.VenusFlytrap]: new Operation("Venus Flytrap", ["venus"]),
@@ -64,23 +65,23 @@ export class Operations {
 		[OperationType.MassiveAttack]: new Operation("Massive Attack", ["ma"])
 	}
 
-	static isEnumIndex(key: string): boolean {
+	private static isEnumIndex(key: string): boolean {
 		const n = ~~Number(key);
 		return String(n) === key && n >= 0;
 	}
 
-	static getOperation(aliasOrName: string) {
+	static getOperation(aliasOrName: string): string {
 		for (var key in OperationType) {
 			if (!this.isEnumIndex(key)) {
 				continue;
 			}
 
 			if (aliasOrName.toLowerCase() === OperationType[key].toLowerCase()) {
-				return key;
+				return OperationType[key];
 			}
 
 			if (this.operations[key].matches(aliasOrName)) {
-				return key;
+				return OperationType[key];
 			}
 		}
 	}
