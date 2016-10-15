@@ -1,4 +1,5 @@
 {
+	"log_level": "info",
 	"bot_token": "<your bot token - get it here: https://discordapp.com/developers/applications/me>",
 	"command_prefix": "!",
 	"permissions": {
