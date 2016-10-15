@@ -27,7 +27,22 @@
 			"request": "launch",
 			"program": "${workspaceRoot}/node_modules/gulp/bin/gulp.js",
 			"stopOnEntry": true,
-			"args": ["tests:cover"],
+			"args": ["tests"],
+			"cwd": "${workspaceRoot}",
+			"env": {
+				"NODE_ENV": "development"
+			},
+			"console": "internalConsole",
+			"sourceMaps": true,
+			"outDir": null
+		},
+		{
+			"name": "Debug Jasmine",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceRoot}/node_modules/jasmine/bin/jasmine.js",
+			"stopOnEntry": true,
+			"args": [],
 			"cwd": "${workspaceRoot}",
 			"env": {
 				"NODE_ENV": "development"
