@@ -54,3 +54,4 @@ typings
 /*.gz
 /.vscode/symbols.json
 /.coveralls.yml
+/operations.json
