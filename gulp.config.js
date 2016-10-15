@@ -1,7 +1,7 @@
 module.exports = function () {
 	var root = './';
-	var app = 'app/';
-	var clientApp = root + app;
+	var app = 'app';
+	var clientApp = root + app + '/';
 	var build = './build/';
 	var coveragePath = './coverage';
 	

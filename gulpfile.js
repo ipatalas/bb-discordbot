@@ -62,7 +62,7 @@ gulp.task('tests:cover', ['tests:cover:before', 'ts'], () => {
 // this is a cheap workaround :/
 gulp.task('fixCoveragePaths', () => {
 	return gulp.src(config.coverage.lcovPath)
-		.pipe($.replace(/SF:.*build\//g, `SF:${config.appRelative}`))
+		.pipe($.replace(/SF:.*build(\/|\\)/g, `SF:${config.appRelative}$1`))
 		.pipe(gulp.dest(config.coverage.path));
 });
 
@@ -90,7 +90,7 @@ gulp.task('develop', ['ts', 'watch'], () => {
 		},
 		stdout: false,
 		readable: false
-	}).on('readable', () => {
+	}).on('readable', function() { // do not change to arrow function
 		// free memory 
 		bunyan && bunyan.kill();
 
