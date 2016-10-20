@@ -3,13 +3,14 @@
 import { SendMessageFunc, SendReplyFunc, isDevEnv, StringResolvable, MessagePromise } from "./utils/common";
 import { Message, Client, TextChannel, User } from "discord.js";
 import * as bunyan from "bunyan";
+import { bot } from "./bot";
 
 const devPrefix = ":hammer: ";
 
 export class MessageContext {
 	reply: SendReplyFunc;
 
-	constructor(private client: Client, public args: string[], public msg: Message, private log: bunyan.Logger) {
+	constructor(public msg: Message, public args: string[], private log: bunyan.Logger) {
 		this.reply = this.processMessage.bind(this, msg.reply.bind(msg));
 	}
 
@@ -32,7 +33,7 @@ export class MessageContext {
 	}
 
 	public getChannel = (name: string): TextChannel => {
-		return <TextChannel>this.client.channels
+		return <TextChannel>bot.channels
 			.filter(ch => ch.type === "text")
 			.find((textChannel: TextChannel) => textChannel.name === name);
 	}
