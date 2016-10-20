@@ -5,6 +5,7 @@ export abstract class CommandBase {
 	command: string;
 	protected log: bunyan.Logger;
 	protected config: any;
+	protected configLoaded = () => {};
 
 	constructor(log?: bunyan.Logger) {
 		if (log) {
@@ -14,6 +15,8 @@ export abstract class CommandBase {
 
 	loadConfig(config: any) {
 		this.config = config;
+
+		this.configLoaded();
 	}
 
 	abstract execute(context: MessageContext): void;

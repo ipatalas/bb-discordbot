@@ -4,38 +4,25 @@ import { SendMessageFunc, SendReplyFunc, isDevEnv, StringResolvable, MessageProm
 import { Message, Client, TextChannel, User } from "discord.js";
 import * as bunyan from "bunyan";
 import { bot } from "./bot";
+import { MessageHelper } from "./messageHelper";
 
 const devPrefix = ":hammer: ";
 
 export class MessageContext {
 	reply: SendReplyFunc;
+	helper: MessageHelper;
 
 	constructor(public msg: Message, public args: string[], private log: bunyan.Logger) {
-		this.reply = this.processMessage.bind(this, msg.reply.bind(msg));
+		this.helper = new MessageHelper(log);
+		this.reply = this.helper.processMessage.bind(this.helper, msg.reply.bind(msg));
 	}
 
 	public sendMessage: SendMessageFunc = (channelOrMessage: StringResolvable | TextChannel, message?: StringResolvable): MessagePromise => {
 		if (!message) {
-			return this.processMessage(this.msg.channel.sendMessage.bind(this.msg.channel), <string>channelOrMessage);
+			return this.helper.sendMessage(<TextChannel>this.msg.channel, <string>channelOrMessage);
 		}
 
-		let channel = <TextChannel>channelOrMessage;
-
-		if (channel) {
-			return this.processMessage(channel.sendMessage.bind(channel), message);
-		} else {
-			this.log.warn(`Channel '${channelOrMessage}' does not exist`);
-
-			return new Promise<Message>((resolve: (val?: Message | PromiseLike<Message>) => void, reject: (error?: any) => void) => {
-				reject(new Error(`Channel '${channelOrMessage}' does not exist`));
-			});
-		}
-	}
-
-	public getChannel = (name: string): TextChannel => {
-		return <TextChannel>bot.channels
-			.filter(ch => ch.type === "text")
-			.find((textChannel: TextChannel) => textChannel.name === name);
+		return this.helper.sendMessage(<TextChannel>channelOrMessage, message);
 	}
 
 	public getMentionedChannels = (): TextChannel[] => {
@@ -46,37 +33,5 @@ export class MessageContext {
 
 	public getMentionedUsers = (): User[] => {
 		return this.msg.mentions.users.array();
-	}
-
-	private processMessage = (sendFunc: SendMessageFunc, message: StringResolvable): MessagePromise => {
-		if (!message) {
-			this.log.warn("Empty message, not sending...");
-			return Promise.resolve();
-		}
-
-		if (isDevEnv) {
-			if (typeof message === "string") {
-				message = devPrefix + message;
-			} else {
-				message = (<string[]>message).map(line => devPrefix + line);
-			}
-		}
-
-		var startDate = new Date();
-
-		let promise = sendFunc(message);
-
-		if (isDevEnv) {
-			promise = promise.then((msg: Message) => {
-				let duration = new Date().valueOf() - startDate.valueOf();
-				msg.edit(msg.content + " ` " + duration + "ms`");
-				return msg;
-			});
-		}
-
-		return promise.catch(err => {
-			this.log.error(err, "!!!discord.js error while sending message: ");
-			throw err; // do not "handle" this promise, just a global logger 
-		});
 	}
 }

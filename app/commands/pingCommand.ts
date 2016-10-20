@@ -5,7 +5,7 @@ export class PingCommand extends CommandBase {
 	command: string = "ping";
 
 	execute(context: MessageContext): void {
-		context.sendMessage("Pong from command");
+		context.reply("Pong from command");
 	}
 }
 
