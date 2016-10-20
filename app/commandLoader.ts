@@ -8,16 +8,20 @@ import { config } from "./config";
 
 let rootDir = path.dirname(require.main.filename);
 
-var commands: { [key: string]: CommandBase; } = {};
+export type CommandsMap = { [key: string]: CommandBase; };
 
-let files = glob.sync("./commands/*.js", { cwd: rootDir });
-files.forEach(path => {
-	let plugin: CommandBase = require(path).default(log);
-	let cmdConfig = config.commands[plugin.command];
-	if (cmdConfig) {
-		plugin.loadConfig(cmdConfig);
-	}
-	commands[plugin.command] = plugin;
-});
+export function loadCommands(): CommandsMap {
+	let commands: CommandsMap = {};
 
-export default commands;
+	let files = glob.sync("./commands/*.js", { cwd: rootDir });
+	files.forEach(path => {
+		let plugin: CommandBase = require(path).default(log);
+		let cmdConfig = config.commands[plugin.command];
+		if (cmdConfig) {
+			plugin.loadConfig(cmdConfig);
+		}
+		commands[plugin.command] = plugin;
+	});
+
+	return commands;
+}

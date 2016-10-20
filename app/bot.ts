@@ -3,18 +3,21 @@ import { log } from "./utils/logger";
 import { Permissions } from "./utils/permissions";
 import { MessageContext } from "./messageContext";
 import * as Discord from "discord.js";
-import { default as commands } from "./commandLoader";
+import { loadCommands, CommandsMap } from "./commandLoader";
 
+var commands: CommandsMap;
 var permissions = new Permissions(config.permissions);
 export const bot = new Discord.Client();
 
 bot.on("ready", () => {
 	log.info("Connected to server");
+	commands = loadCommands();
 });
 
 bot.on("message", (msg: Discord.Message) => {
 	if (!msg.content.startsWith(config.command_prefix)) return;
 	if (msg.author.bot) return;
+	if (!commands) return;
 
 	let [cmd, ...params] = msg.content.substr(1).split(" ");
 
