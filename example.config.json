@@ -7,5 +7,11 @@
 		"<command>[.subcommand]": "<role name>",
 		"<command>": "@everyone",
 		"*": "!@everyone" 
+	},
+	"commands": {
+		"command_name": {
+			"configuration_specific_to": "a_single_command",
+			"all_these_keys_will_be_easily_available": "from_the_command_itself"
+		}
 	}
 }
