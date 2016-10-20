@@ -14,10 +14,10 @@ describe("Given PingCommand", () => {
 
 	// context.sendMessage("Pong from command");
 	it("when execute is called, a Pong message should be sent back", () => {
-		let context = <MessageContext>jasmine.createSpyObj("MessageContext", ["sendMessage"]);
+		let context = <MessageContext>jasmine.createSpyObj("MessageContext", ["reply"]);
 
 		cmd.execute(context);
 
-		expect(context.sendMessage).toHaveBeenCalledWith("Pong from command");
+		expect(context.reply).toHaveBeenCalledWith("Pong from command");
 	});
 });	
