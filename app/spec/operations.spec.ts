@@ -1,4 +1,4 @@
-import { Operations, OperationType } from "../Operations";
+import { Operations, OperationType } from "../operations";
 
 describe("Given Operations class when calling getOperation", () => {
 	it("and an enum name is given, proper OperationType should be returned", () => {
