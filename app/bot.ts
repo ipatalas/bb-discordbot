@@ -15,13 +15,14 @@ bot.on("ready", () => {
 });
 
 bot.on("message", (msg: Discord.Message) => {
-	if (!msg.content.startsWith(config.command_prefix)) return;
-	if (msg.author.bot) return;
 	if (!commands) return;
+	if (msg.author.bot) return;
+	if (!msg.content.startsWith(config.command_prefix)) return;
 
 	let [cmd, ...params] = msg.content.substr(1).split(" ");
 
-	if (!permissions.hasAccess(cmd, msg.member.roles)) {
+	// TODO: implement permissions for Direct Channels as well
+	if (msg.member && !permissions.hasAccess(cmd, msg.member.roles)) {
 		log.warn({ user: msg.author.username, command: cmd }, "Permission denied");
 		return;
 	}

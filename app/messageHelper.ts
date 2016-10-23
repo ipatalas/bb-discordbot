@@ -1,6 +1,6 @@
-import { SendMessageFunc, SendReplyFunc, isDevEnv, StringResolvable, MessagePromise } from "./utils/common";
+import { SendMessageFunc, SendReplyFunc, isDevEnv, StringResolvable, MessagePromise, AnyTextChannel } from "./utils/common";
 import { log as defaultLogger } from "./utils/logger";
-import { Message, Client, TextChannel, User } from "discord.js";
+import { Message, Client, TextChannel, DMChannel, User } from "discord.js";
 import * as bunyan from "bunyan";
 import { bot } from "./bot";
 
@@ -13,11 +13,11 @@ export class MessageHelper {
 		this.log = log || defaultLogger;
 	}
 
-	public sendMessage = (channelLike: string | TextChannel, message?: StringResolvable): MessagePromise => {
-		let channel: TextChannel;
+	public sendMessage = (channelLike: string | AnyTextChannel, message?: StringResolvable): MessagePromise => {
+		let channel: AnyTextChannel;
 
 		if (typeof(channelLike) === "string") {
-			channel = this.getChannel(channelLike);
+			channel = this.getTextChannel(channelLike);
 		} else {
 			channel = channelLike;
 		}
@@ -33,7 +33,7 @@ export class MessageHelper {
 		}
 	}
 
-	public getChannel = (name: string): TextChannel => {
+	public getTextChannel = (name: string): TextChannel => {
 		let predicate: (element: TextChannel) => boolean;
 
 		if (name.startsWith("#")) {
