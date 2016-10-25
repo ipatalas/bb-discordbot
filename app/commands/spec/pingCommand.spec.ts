@@ -1,11 +1,18 @@
 import { MessageContext } from "./../../messageContext";
 import { PingCommand } from "../pingCommand";
+import defaultExport from "../pingCommand";
 
 describe("Given PingCommand", () => {
 	var cmd: PingCommand;
 
 	beforeEach(() => {
 		cmd = new PingCommand();
+	});
+
+	it("default export should point to PingCommand", () => {
+		let cmd = defaultExport();
+
+		expect(cmd instanceof PingCommand).toBeTruthy();
 	});
 
 	it("should be constructed with proper name", () => {

@@ -1,6 +1,8 @@
 /// <reference path="../typings/index.d.ts" />
-
 import * as _ from "lodash";
+import * as moment from "moment";
+
+export const operationDuration = moment.duration({ hours: 23, minutes: 55 });
 
 export enum OperationType {
 	MilkRun = 1,
@@ -71,6 +73,10 @@ export class Operations {
 	}
 
 	static getOperation(aliasOrName: string): string {
+		if (!aliasOrName) {
+			return;
+		}
+
 		for (var key in OperationType) {
 			if (!this.isEnumIndex(key)) {
 				continue;
