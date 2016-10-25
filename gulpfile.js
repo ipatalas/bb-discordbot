@@ -70,8 +70,8 @@ gulp.task('tests:watch', ['ts'], () => {
 	return gulp.watch(config.ts.allTs, ['ts', 'tests']);
 });
 
-gulp.task('tests:cover:watch', ['ts'], () => {
-	return gulp.watch(config.ts.allTs, ['ts', 'tests:cover']);
+gulp.task('tests:cover:watch', ['tests:cover'], () => {
+	return gulp.watch(config.ts.allTs, ['tests:cover']);
 });
 
 gulp.task('watch', () => {
@@ -127,6 +127,9 @@ gulp.task('_copyDeps', () => {
 
 gulp.task('_copyFiles', () => {
 	return gulp.src(config.copyFiles)
+		.pipe($.rename((path) => {
+			path.basename = path.basename.replace("-release", "");
+		}))
 		.pipe(gulp.dest(config.build.output));
 });
 

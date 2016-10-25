@@ -26,7 +26,7 @@ module.exports = function () {
 			allTs: clientApp + '**/*.ts'
 		},
 		copyFiles: [
-			'./config.json'
+			'./config-release.json'
 		],
 		build: {
 			output: build,
